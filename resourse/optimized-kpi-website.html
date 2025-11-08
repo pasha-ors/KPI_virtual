@@ -1,0 +1,2411 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Katedra počítačov a informatiky TUKE - Moderné vzdelávanie v oblasti informatiky a kyberbezpečnosti">
+    <meta name="keywords" content="informatika, kyberbezpečnosť, TUKE, univerzita, štúdium, programovanie">
+    <title>TUKE KPI Virtual - Katedra počítačov a informatiky</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-arrow {
+            color: #3b82f6;
+            transform: rotate(-45deg);
+        }
+        
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .brand-main {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1f2937;
+        }
+        
+        .brand-sub {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-search {
+            display: flex;
+            align-items: center;
+            background: #f3f4f6;
+            border-radius: 25px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-search:focus-within {
+            background: #e5e7eb;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .search-input {
+            border: none;
+            background: none;
+            outline: none;
+            padding: 4px 8px;
+            font-size: 0.9rem;
+            width: 200px;
+        }
+        
+        .search-btn {
+            background: none;
+            color: #6b7280;
+            padding: 4px;
+        }
+        
+        .nav-language {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            background: none;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            padding: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn.active {
+            border-color: #3b82f6;
+        }
+        
+        .main-nav {
+            background: #1f2937;
+            color: white;
+        }
+        
+        .nav-menu-horizontal {
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            padding: 20px 24px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            color: #333;
+            min-width: 500px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .nav-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-section h4 {
+            color: #3b82f6;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .dropdown-section a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            color: #4b5563;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-section a:hover {
+            color: #3b82f6;
+            padding-left: 8px;
+        }
+        
+        .dropdown-section i {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-top: 130px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.2) 0%, transparent 50%);
+            opacity: 0.8;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><defs><pattern id="hexagons" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><polygon points="30,2 50,17 50,43 30,58 10,43 10,17" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23hexagons)"/></svg>');
+            opacity: 0.4;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+        
+        .hero-text h2 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #fbbf24;
+            margin-bottom: 24px;
+        }
+        
+        .hero-description {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            border: 2px solid transparent;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255,255,255,0.1);
+        }
+        
+        .btn-secondary:hover::before {
+            opacity: 1;
+        }
+        
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .kpi-giant-text {
+            position: relative;
+            display: flex;
+            gap: 50px;
+            z-index: 10;
+            margin-top: 20px;
+        }
+        
+        .kpi-letter {
+            font-size: 16rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            text-shadow: 0 0 80px rgba(255, 255, 255, 0.3);
+            filter: drop-shadow(0 8px 25px rgba(255, 255, 255, 0.15));
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            opacity: 1;
+            letter-spacing: -0.05em;
+            z-index: 10;
+        }
+        
+        .kpi-letter::before {
+            content: attr(data-letter);
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            z-index: -1;
+            transform: translate(3px, 3px);
+        }
+        
+        .kpi-letter::after {
+            content: attr(data-letter);
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.05);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            z-index: -2;
+            transform: translate(6px, 6px);
+        }
+        
+        .kpi-letter:nth-child(2) {
+            animation-delay: 0.5s;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        
+        .kpi-letter:nth-child(3) {
+            animation-delay: 1s;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.65) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(25px);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.5);
+            animation: complexFloat 12s ease-in-out infinite;
+            transition: all 0.5s ease;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+            overflow: hidden;
+            z-index: 5;
+        }
+        
+        .floating-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.02), transparent);
+            animation: rotate 20s linear infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .floating-icon:hover {
+            transform: scale(1.08) rotate(5deg);
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            border-color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        
+        .floating-icon:hover::before {
+            opacity: 1;
+        }
+        
+        .floating-icon:nth-child(1) { 
+            animation-delay: 0s;
+            border-color: rgba(59, 130, 246, 0.1);
+        }
+        .floating-icon:nth-child(2) { 
+            animation-delay: 3s;
+            border-color: rgba(168, 85, 247, 0.1);
+        }
+        .floating-icon:nth-child(3) { 
+            animation-delay: 6s;
+            border-color: rgba(16, 185, 129, 0.1);
+        }
+        .floating-icon:nth-child(4) { 
+            animation-delay: 9s;
+            border-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .floating-dot {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            border-radius: 50%;
+            animation: complexFloat 15s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+        
+        .floating-dot.small {
+            width: 12px;
+            height: 12px;
+        }
+        
+        .floating-dot.medium {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .floating-dot.large {
+            width: 32px;
+            height: 32px;
+        }
+        
+        /* New geometric shapes */
+        .floating-triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid rgba(255,255,255,0.03);
+            animation: complexFloat 18s ease-in-out infinite;
+        }
+        
+        .floating-square {
+            position: absolute;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            animation: complexFloat 14s ease-in-out infinite;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+        }
+        
+        @keyframes complexFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+                opacity: 0.8;
+            }
+            25% { 
+                transform: translateY(-15px) translateX(5px) rotate(2deg);
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-8px) translateX(-3px) rotate(-1deg);
+                opacity: 0.9;
+            }
+            75% { 
+                transform: translateY(-12px) translateX(2px) rotate(1deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(2deg); }
+            66% { transform: translateY(-5px) rotate(-2deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: #f9fafb;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        
+        .section-header p {
+            font-size: 1.2rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover::before {
+            left: 0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+        
+        /* Dynamic Content */
+        .dynamic-content {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .news-section-wrapper {
+            margin-bottom: 80px;
+        }
+        
+        .section-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-header-main h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .btn-outline-small {
+            background: none;
+            color: #3b82f6;
+            padding: 8px 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-small:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .tuke-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .tuke-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+        }
+        
+        .tuke-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .tuke-card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .tuke-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+        
+        .tuke-card:hover .tuke-card-image img {
+            transform: scale(1.05);
+        }
+        
+        .tuke-card-content {
+            padding: 24px;
+        }
+        
+        .tuke-card-content h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .tuke-card-content p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .tuke-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+        
+        .card-category-tag {
+            background: #e5e7eb;
+            color: #374151;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .card-category-tag.events {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .card-category-tag.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .card-date {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        
+        /* Programs Section */
+        .programs {
+            padding: 100px 0;
+            background: #f9fafb;
+        }
+        
+        .program-section {
+            margin-bottom: 60px;
+        }
+        
+        .program-section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .program-section-header h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .program-section-header h3 i {
+            color: #3b82f6;
+        }
+        
+        .program-section-header p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .program-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+        
+        .program-card.featured {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        
+        .program-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        
+        .program-level {
+            background: #3b82f6;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        
+        .program-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .program-duration {
+            color: #6b7280;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .program-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        
+        .program-features li {
+            padding: 8px 0;
+            color: #4b5563;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .program-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .btn-outline {
+            background: none;
+            color: #3b82f6;
+            padding: 12px 24px;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: block;
+            text-align: center;
+        }
+        
+        .btn-outline:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: #1f2937;
+            color: white;
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        
+        .contact-info h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .contact-info > p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .contact-item i {
+            color: #60a5fa;
+            font-size: 1.2rem;
+            margin-top: 4px;
+        }
+        
+        .contact-item strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .contact-item p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .contact-form {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        /* Footer */
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-logo {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .footer-section h4 {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #f9fafb;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section ul li a {
+            color: #d1d5db;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #60a5fa;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-links a {
+            color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #60a5fa;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-menu-horizontal {
+                display: none;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .hero-text h1,
+            .hero-text h2 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+        
+        /* Mobile-first responsive design improvements */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 60px 0 40px;
+                min-height: 85vh;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+            
+            .hero-text h1,
+            .hero-text h2 {
+                font-size: 3rem;
+            }
+            
+            .hero-description {
+                font-size: 1.2rem;
+                margin-bottom: 24px;
+            }
+            
+            .kpi-giant-text {
+                gap: 35px;
+                margin-top: 20px;
+            }
+            
+            .kpi-letter {
+                font-size: 10rem;
+                font-weight: 700;
+            }
+            
+            .floating-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.6rem;
+            }
+            
+            .floating-dot,
+            .floating-triangle,
+            .floating-square {
+                opacity: 0.6;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h1,
+            .hero-text h2 {
+                font-size: 2.4rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            
+            .kpi-giant-text {
+                gap: 25px;
+            }
+            
+            .kpi-letter {
+                font-size: 7rem;
+                font-weight: 800;
+            }
+            
+            .floating-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
+            }
+            
+            .floating-dot.small,
+            .floating-triangle {
+                display: none;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+                padding: 14px 24px;
+                font-size: 0.95rem;
+            }
+            
+            .feature-card,
+            .tuke-card,
+            .program-card {
+                padding: 20px;
+            }
+        }
+        
+        /* Ultra small screens */
+        @media (max-width: 360px) {
+            .kpi-letter {
+                font-size: 5.5rem;
+            }
+            
+            .hero-text h1,
+            .hero-text h2 {
+                font-size: 2rem;
+            }
+            
+            .floating-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Utility Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            to {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+        
+        /* Loading states */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        /* Focus states for accessibility */
+        button:focus,
+        input:focus,
+        select:focus,
+        textarea:focus,
+        a:focus {
+            outline: 2px solid #60a5fa;
+            outline-offset: 2px;
+        }
+        
+        /* Print styles */
+        @media print {
+            .navbar,
+            .hero,
+            .footer {
+                display: none;
+            }
+            
+            body {
+                font-size: 12pt;
+                line-height: 1.5;
+            }
+            
+            .container {
+                max-width: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-main">Katedra počítačov a informatiky</span>
+                    <span class="brand-sub">Fakulta elektrotechniky a informatiky</span>
+                </div>
+            </div>
+            
+            <div class="nav-right">
+                <div class="nav-search">
+                    <input type="text" placeholder="Hľadať" class="search-input" id="searchInput">
+                    <button class="search-btn" onclick="handleSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="nav-language">
+                    <button class="lang-btn" onclick="switchLanguage('en')">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="EN" width="16" height="12">
+                    </button>
+                    <button class="lang-btn active" onclick="switchLanguage('sk')">
+                        <img src="https://flagcdn.com/w20/sk.png" alt="SK" width="16" height="12">
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Navigation Menu -->
+        <div class="main-nav">
+            <div class="nav-container">
+                <div class="nav-menu-horizontal" id="navMenu">
+                    <div class="nav-item">
+                        <a href="#about" class="nav-link">O NÁS</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>O KATEDRE</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Kto sme</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Úradná výveska</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Virtuálna prehliadka</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Ako nás nájdete</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Kontakt</a>
+                            </div>
+                            <div class="dropdown-section">
+                                <h4>ŠTRUKTÚRA A ĽUDIA</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Vedenie katedry</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Poradné orgány dekana</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Akademické orgány</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Organizačné jednotky</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Ľudia na katedre</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#applicants" class="nav-link">UCHÁDZAČI</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>ŠTÚDIUM</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Bakalárske štúdium</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Magisterské štúdium</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Doktorandské štúdium</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Prijímacie konanie</a>
+                            </div>
+                            <div class="dropdown-section">
+                                <h4>INFORMÁCIE</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Študijné programy</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Podmienky prijatia</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Termíny a lehoty</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#students" class="nav-link">ŠTUDENTI</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>ŠTÚDIUM</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Rozvrh hodín</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Skúškové obdobie</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Študijné materiály</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Bakalárske práce</a>
+                            </div>
+                            <div class="dropdown-section">
+                                <h4>SLUŽBY</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> IS MAIS</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> E-learning</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Laboratóriá</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#graduates" class="nav-link">ABSOLVENTI</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>KARIÉRA</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Uplatnenie absolventov</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Partnerské firmy</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Stáže a praxe</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Alumni sieť</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#employees" class="nav-link">ZAMESTNANCI</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>PRACOVNÉ PRÍLEŽITOSTI</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Aktuálne pozície</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Akademické pozície</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Výskumné projekty</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#partners" class="nav-link">PARTNERI</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>SPOLUPRÁCA</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Priemyselní partneri</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Akademickí partneri</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Projekty spolupráce</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> IT Valley</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a href="#magazine" class="nav-link">MAGAZÍN</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>PUBLIKÁCIE</h4>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Najnovšie články</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Výskumné publikácie</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Študentské práce</a>
+                                <a href="#"><i class="fas fa-arrow-right"></i> Archív</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Katedra počítačov</h1>
+                    <h2>a informatiky</h2>
+                    <p class="hero-description">
+                        Najväčšia katedra v oblasti informatiky a informačných technológií 
+                        na východnom Slovensku. Pripravujeme odborníkov pre budúcnosť IT.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary ripple" onclick="scrollToSection('education')">Študijné programy</button>
+                        <button class="btn-secondary ripple">Virtuálna prehliadka</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="kpi-giant-text">
+                        <span class="kpi-letter" data-letter="K">K</span>
+                        <span class="kpi-letter" data-letter="P">P</span>
+                        <span class="kpi-letter" data-letter="I">I</span>
+                    </div>
+                    <div class="kpi-floating-elements">
+                        <div class="floating-icon" style="top: 5%; left: 2%;"><i class="fas fa-code"></i></div>
+                        <div class="floating-icon" style="top: 12%; right: 3%;"><i class="fas fa-laptop"></i></div>
+                        <div class="floating-icon" style="bottom: 12%; left: 3%;"><i class="fas fa-shield-alt"></i></div>
+                        <div class="floating-icon" style="bottom: 5%; right: 2%;"><i class="fas fa-network-wired"></i></div>
+                        
+                        <!-- Enhanced floating dots positioned to not interfere with KPI -->
+                        <div class="floating-dot small" style="top: 40%; left: 8%; animation-delay: 2s;"></div>
+                        <div class="floating-dot medium" style="top: 70%; right: 12%; animation-delay: 5s;"></div>
+                        <div class="floating-dot large" style="top: 50%; left: 92%; animation-delay: 8s;"></div>
+                        <div class="floating-dot small" style="bottom: 55%; left: 18%; animation-delay: 11s;"></div>
+                        <div class="floating-dot medium" style="top: 8%; right: 25%; animation-delay: 14s;"></div>
+                        
+                        <!-- New geometric shapes positioned away from center -->
+                        <div class="floating-triangle" style="top: 25%; right: 85%; animation-delay: 3s;"></div>
+                        <div class="floating-triangle" style="bottom: 40%; left: 88%; animation-delay: 7s;"></div>
+                        <div class="floating-square" style="width: 18px; height: 18px; top: 60%; right: 8%; animation-delay: 4s;"></div>
+                        <div class="floating-square" style="width: 12px; height: 12px; bottom: 35%; right: 90%; animation-delay: 9s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="1000">0</div>
+                    <div class="stat-label">Študentov ročne</div>
+                </div>
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="3">0</div>
+                    <div class="stat-label">Stupne štúdia</div>
+                </div>
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="20">0</div>
+                    <div class="stat-label">Výskumných oblastí</div>
+                </div>
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="95">0</div>
+                    <div class="stat-label">Zamestnanosť absolventov</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Prečo študovať informatiku u nás?</h2>
+                <p>Najväčšia katedra informatiky na východnom Slovensku s bohatými tradíciami a moderným prístupom</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Tri stupne štúdia</h3>
+                    <p>Bakalárske, magisterské a doktorandské štúdium v oblasti informatiky a kyberbezpečnosti.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>Spolupráca s praxou</h3>
+                    <p>Najlepší na Slovensku v spolupráci s praxou. Členovia IT Valley asociácie s kontaktmi na firmy.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Moderné technológie</h3>
+                    <p>Vyučujeme najnovšie technológie a pripravujeme vás pre priemyselnú prax, nie len pre teóriu.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Výskumné projekty</h3>
+                    <p>Zapojenie do zaujímavých výskumných projektov a plná spolupráca s praxou cez tímové projekty.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                    <h3>Medzinárodné mobility</h3>
+                    <p>Možnosť štúdia v zahraničí cez Erasmus/CEEPUS programy v Nemecku, Fínsku, Rakúsku a ďalších krajinách.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Vysoká zamestnanosť</h3>
+                    <p>Naši absolventi nachádzajú uplatnenie vo firmách ako T-Systems, IBM, SAP, Oracle, ESET a ďalších.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Content Areas -->
+    <section class="dynamic-content">
+        <div class="container">
+            <!-- News/Aktuality Section -->
+            <div class="news-section-wrapper">
+                <div class="section-header-main">
+                    <h2>Novinky KPI</h2>
+                    <a href="#" class="btn-outline-small">Ďalšie novinky</a>
+                </div>
+                <div class="tuke-cards-grid" id="aktuality">
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/1e40af/ffffff?text=AI+Laboratory" alt="Nové laboratórium pre umelú inteligenciu" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Nové laboratórium pre umelú inteligenciu</h4>
+                            <p>Katedra otvorila moderné laboratórium vybavené najnovšími technológiami pre výskum AI a strojového učenia.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag">Novinky</span>
+                                <span class="card-date">15.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/10b981/ffffff?text=Programming+Contest" alt="Úspech študentov na medzinárodnej súťaži" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Úspech študentov na medzinárodnej súťaži</h4>
+                            <p>Tím našich študentov obsadil 2. miesto na European Programming Contest 2025 v Amsterdame.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag">Novinky</span>
+                                <span class="card-date">10.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/ef4444/ffffff?text=ESET+Partnership" alt="Spolupráca s firmou ESET" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Spolupráca s firmou ESET</h4>
+                            <p>Podpísaná nová dohoda o spolupráci v oblasti výskumu kyberbezpečnosti a praktických stáží.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag">Novinky</span>
+                                <span class="card-date">05.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events/Udalosti Section -->
+            <div class="news-section-wrapper">
+                <div class="section-header-main">
+                    <h2>Udalosti</h2>
+                    <a href="#" class="btn-outline-small">Ďalšie udalosti</a>
+                </div>
+                <div class="tuke-cards-grid" id="udalosti">
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/3b82f6/ffffff?text=Open+Days" alt="Deň otvorených dverí KPI" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Deň otvorených dverí KPI</h4>
+                            <p>Pozvánka na prezentáciu študijných programov a moderných laboratórií katedry počítačov a informatiky.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag events">Udalosti</span>
+                                <span class="card-date">20.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/8b5cf6/ffffff?text=Web+Workshop" alt="Workshop: Moderné webové technológie" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Workshop: Moderné webové technológie</h4>
+                            <p>Praktický workshop pre študentov o najnovších trendoch vo webovom vývoji a cloud technológiách.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag events">Udalosti</span>
+                                <span class="card-date">25.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/06b6d4/ffffff?text=AI+Future" alt="Prednáška: Budúcnosť umelej inteligencie" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Prednáška: Budúcnosť umelej inteligencie</h4>
+                            <p>Hosťovská prednáška od odborníkov z Google DeepMind o trendoch v oblasti AI.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag events">Udalosti</span>
+                                <span class="card-date">30.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success/Úspechy Section -->
+            <div class="news-section-wrapper">
+                <div class="section-header-main">
+                    <h2>Úspechy</h2>
+                    <a href="#" class="btn-outline-small">Ďalšie úspechy</a>
+                </div>
+                <div class="tuke-cards-grid" id="uspechy">
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/f59e0b/ffffff?text=Research+Award" alt="Ocenenie za najlepší výskumný projekt" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Ocenenie za najlepší výskumný projekt</h4>
+                            <p>Prof. Novák získal prestížne ocenenie za výskum v oblasti strojového učenia a neurónových sietí.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag success">Úspechy</span>
+                                <span class="card-date">01.11.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/14b8a6/ffffff?text=IEEE+Publication" alt="Publikácia v top časopise" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Publikácia v top časopise</h4>
+                            <p>Výskumný tím publikoval prielomový článok v IEEE Transactions on Computers.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag success">Úspechy</span>
+                                <span class="card-date">25.10.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tuke-card fade-in">
+                        <div class="tuke-card-image">
+                            <img src="https://via.placeholder.com/400x250/84cc16/ffffff?text=Cybersecurity+Grant" alt="Grant na výskum kyberbezpečnosti" loading="lazy">
+                        </div>
+                        <div class="tuke-card-content">
+                            <h4>Grant na výskum kyberbezpečnosti</h4>
+                            <p>Katedra získala grant vo výške 500 000 € na trojročný výskumný projekt v oblasti kybernetickej bezpečnosti.</p>
+                            <div class="tuke-card-meta">
+                                <span class="card-category-tag success">Úspechy</span>
+                                <span class="card-date">20.10.2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs" id="education">
+        <div class="container">
+            <div class="section-header">
+                <h2>Študijné programy</h2>
+                <p>Dva hlavné smery štúdia s rôznymi stupňami vzdelania</p>
+            </div>
+            
+            <!-- Informatika Section -->
+            <div class="program-section">
+                <div class="program-section-header">
+                    <h3><i class="fas fa-laptop-code"></i> Informatika</h3>
+                    <p>Komplexné vzdelanie v oblasti softvérového inžinierstva, databázových systémov a počítačových sietí</p>
+                </div>
+                
+                <div class="programs-grid">
+                    <div class="program-card fade-in">
+                        <div class="program-level">Bakalárske štúdium</div>
+                        <h4>Informatika</h4>
+                        <div class="program-duration">3 roky (slovensky/anglicky)</div>
+                        <ul class="program-features">
+                            <li>Matematické základy informatiky</li>
+                            <li>Algoritmy a dátové štruktúry</li>
+                            <li>Programovanie a softvérové inžinierstvo</li>
+                            <li>Počítačové siete a databázy</li>
+                        </ul>
+                        <button class="btn-outline">Viac informácií</button>
+                    </div>
+                    
+                    <div class="program-card fade-in">
+                        <div class="program-level">Magisterské štúdium</div>
+                        <h4>Informatika</h4>
+                        <div class="program-duration">2 roky</div>
+                        <ul class="program-features">
+                            <li>Softvérové inžinierstvo</li>
+                            <li>Počítačové siete a bezpečnosť</li>
+                            <li>Používateľské rozhrania</li>
+                            <li>Spracovanie dát a AI</li>
+                        </ul>
+                        <button class="btn-outline">Viac informácií</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kyberbezpečnosť Section -->
+            <div class="program-section">
+                <div class="program-section-header">
+                    <h3><i class="fas fa-shield-alt"></i> Kyberbezpečnosť</h3>
+                    <p>Špecializované vzdelanie v oblasti bezpečnosti informačných systémov a kryptografie</p>
+                </div>
+                
+                <div class="programs-grid">
+                    <div class="program-card featured fade-in">
+                        <div class="program-level">Bakalárske štúdium</div>
+                        <h4>Kyberbezpečnosť</h4>
+                        <div class="program-duration">3 roky (slovensky)</div>
+                        <ul class="program-features">
+                            <li>Základy kyberbezpečnosti</li>
+                            <li>Kryptografia a protokoly</li>
+                            <li>Priemyselná bezpečnosť</li>
+                            <li>CCNA Security certifikácia</li>
+                        </ul>
+                        <button class="btn-primary">Prihlásiť sa</button>
+                    </div>
+                    
+                    <div class="program-card fade-in">
+                        <div class="program-level">Magisterské štúdium</div>
+                        <h4>Kyberbezpečnosť</h4>
+                        <div class="program-duration">2 roky (pripravuje sa)</div>
+                        <ul class="program-features">
+                            <li>Pokročilá kryptografia</li>
+                            <li>Bezpečnosť sietí</li>
+                            <li>Digitálna forenzika</li>
+                            <li>Etické hackujúce</li>
+                        </ul>
+                        <button class="btn-outline">Pripravuje sa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Kontaktujte nás</h2>
+                    <p>Máte otázky alebo chcete začať štúdium? Sme tu pre vás.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Adresa</strong>
+                                <p>Katedra počítačov a informatiky<br>
+                                   Fakulta elektrotechniky a informatiky<br>
+                                   Technická univerzita v Košiciach<br>
+                                   Letná 9, 042 00 Košice</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email</strong>
+                                <p>kpi@tuke.sk</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Telefón</strong>
+                                <p>+421 55 602 4000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Meno *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Predmet</label>
+                            <select id="subject" name="subject">
+                                <option value="">Vyberte predmet</option>
+                                <option value="info">Informácie o štúdiu</option>
+                                <option value="admission">Prijímacie konanie</option>
+                                <option value="technical">Technická podpora</option>
+                                <option value="other">Iné</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Správa *</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Odoslať správu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <div class="brand-text">
+                            <span class="brand-main">KPI Virtual</span>
+                            <span class="brand-sub">Technická univerzita v Košiciach</span>
+                        </div>
+                    </div>
+                    <p>Moderné vzdelávanie v oblasti sieťových technológií a informatiky pre budúcnosť digitálnej spoločnosti.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Štúdium</h4>
+                    <ul>
+                        <li><a href="#education">Bakalárske štúdium</a></li>
+                        <li><a href="#education">Magisterské štúdium</a></li>
+                        <li><a href="#education">Doktorandské štúdium</a></li>
+                        <li><a href="#careers">Kariérne možnosti</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Výskum</h4>
+                    <ul>
+                        <li><a href="#research">Výskumné oblasti</a></li>
+                        <li><a href="#research">Laboratóriá</a></li>
+                        <li><a href="#research">Publikácie</a></li>
+                        <li><a href="#research">Projekty</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Sledujte nás</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Katedra počítačov a informatiky, TUKE. Všetky práva vyhradené.</p>
+                <div class="footer-links">
+                    <a href="#">Ochrana osobných údajov</a>
+                    <a href="#">Podmienky používania</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Optimized JavaScript functionality
+        
+        // Debounce function for performance optimization
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Throttle function for performance optimization
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Initialize observers
+        function initializeObservers() {
+            const animatedElements = document.querySelectorAll('.fade-in');
+            animatedElements.forEach(el => observer.observe(el));
+        }
+        
+        // Navbar scroll effect
+        const handleNavbarScroll = throttle(() => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }, 100);
+        
+        // Counter animation
+        function animateCounter(element) {
+            const target = parseInt(element.dataset.target);
+            const increment = target / 200;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (element.textContent.includes('%') ? '%' : target >= 1000 ? '+' : '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.ceil(current) + (element.textContent.includes('%') ? '%' : target >= 1000 ? '+' : '');
+                }
+            }, 10);
+        }
+        
+        // Initialize counters when visible
+        function initializeCounters() {
+            const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+            
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        counterObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            statNumbers.forEach(stat => counterObserver.observe(stat));
+        }
+        
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+        
+        // Mobile menu toggle
+        let mobileMenuOpen = false;
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.querySelector('.nav-toggle');
+            
+            mobileMenuOpen = !mobileMenuOpen;
+            
+            if (mobileMenuOpen) {
+                navMenu.style.display = 'block';
+                navToggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                navMenu.style.display = 'none';
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Language switcher
+        function switchLanguage(lang) {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.lang-btn').classList.add('active');
+            
+            // Here you would implement actual language switching logic
+            console.log('Switching to language:', lang);
+        }
+        
+        // Search functionality
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                console.log('Searching for:', searchTerm);
+                // Implement search logic here
+                showNotification('Vyhľadávanie pre: ' + searchTerm, 'info');
+            }
+        }
+        
+        // Form submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            // Validate form
+            if (!data.name || !data.email || !data.message) {
+                showNotification('Prosím vyplňte všetky povinné polia', 'error');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            submitButton.classList.add('loading');
+            submitButton.textContent = 'Odosiela sa...';
+            
+            setTimeout(() => {
+                submitButton.classList.remove('loading');
+                submitButton.textContent = 'Odoslať správu';
+                showNotification('Správa bola úspešne odoslaná!', 'success');
+                event.target.reset();
+            }, 2000);
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                padding: 16px 20px;
+                border-radius: 8px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                z-index: 10000;
+                max-width: 400px;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span>
+                    <span>${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 5000);
+        }
+        
+        // Ripple effect for buttons
+        function addRippleEffect() {
+            const rippleButtons = document.querySelectorAll('.ripple');
+            
+            rippleButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255,255,255,0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        left: ${x}px;
+                        top: ${y}px;
+                        width: ${size}px;
+                        height: ${size}px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        }
+        
+        // Lazy loading for images
+        function initializeLazyLoading() {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src || img.src;
+                            img.classList.add('loaded');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                images.forEach(img => imageObserver.observe(img));
+            }
+        }
+        
+        // Keyboard navigation
+        function initializeKeyboardNavigation() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileMenuOpen) {
+                    toggleMobileMenu();
+                }
+                
+                if (e.key === 'Enter' && e.target.classList.contains('search-input')) {
+                    handleSearch();
+                }
+            });
+        }
+        
+        // Performance optimization - Reduce layout thrashing
+        function optimizePerformance() {
+            // Passive event listeners for better scroll performance
+            document.addEventListener('scroll', handleNavbarScroll, { passive: true });
+            
+            // Preload critical resources
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'preload';
+            preloadLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
+            preloadLink.as = 'style';
+            document.head.appendChild(preloadLink);
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeObservers();
+            initializeCounters();
+            addRippleEffect();
+            initializeLazyLoading();
+            initializeKeyboardNavigation();
+            optimizePerformance();
+            
+            // Show loading complete notification
+            setTimeout(() => {
+                showNotification('Stránka bola úspešne načítaná!', 'success');
+            }, 1000);
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', debounce(() => {
+            if (window.innerWidth > 1024 && mobileMenuOpen) {
+                toggleMobileMenu();
+            }
+        }, 250));
+        
+        // Service Worker for offline support (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed');
+                    });
+            });
+        }
+        
+        // Error handling for images
+        document.addEventListener('error', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.target.src = 'https://via.placeholder.com/400x250/e5e7eb/9ca3af?text=Obr%C3%A1zok+sa+nena%C4%8D%C3%ADtal';
+            }
+        }, true);
+    </script>
+</body>
+</html>
