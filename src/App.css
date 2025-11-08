@@ -115,7 +115,7 @@ button {
 
 .nav-search:focus-within {
     background: #e5e7eb;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
 }
 
 .search-input {
@@ -127,10 +127,34 @@ button {
     width: 200px;
 }
 
+.search-input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.search-input.active {
+    border: none;
+    outline: none;
+}
+
 .search-btn {
     background: none;
     color: #6b7280;
     padding: 4px;
+    border: none;
+    outline: none;
+}
+
+.search-btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.search-btn.active {
+    outline: none;
+    border: none;
 }
 
 .nav-language {
@@ -140,10 +164,20 @@ button {
 
 .lang-btn {
     background: none;
-    border: 2px solid transparent;
+    border: none;
+    outline: none;
     border-radius: 6px;
     padding: 6px;
     transition: all 0.3s ease;
+}
+
+.lang-btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.lang-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
 }
 
 .lang-btn.active {
@@ -1085,9 +1119,9 @@ button {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    outline: none;
+    outline: none !important;
     border-color: #60a5fa;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    box-shadow: none !important;
 }
 
 .form-group input::placeholder,
@@ -1384,14 +1418,14 @@ button {
     pointer-events: none;
 }
 
-/* Focus states for accessibility */
+/* Focus states - removed outlines */
 button:focus,
 input:focus,
 select:focus,
 textarea:focus,
 a:focus {
-    outline: 2px solid #60a5fa;
-    outline-offset: 2px;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 /* Print styles */
